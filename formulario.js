@@ -1,34 +1,44 @@
-var formulario = document.querySelector("#form")
+var formulario = document.querySelector("formulario");
 
 formulario.onsubmit = function(e) {
 
-  e.prevent();
+  e.preventDeafult(); // Previene el envio por defecto del formualario
+
+  //CAaptura los elementos del formulario por su posición
   
-  var n = formulario.elements[0]
-  var e = formulario.elements[1]
-  var na = formulario.elements[2]
+  var nombre = formulario.elements[0];
+  var edad = formulario.elements[1];
+  var nacionalidad = formulario.elements[2];
 
-  var nombre = n.value
-  var edad = e.value
+ // Obtiene el valor del nombre, edad y nacionalidad seleccionada
+  var nombre = nombreInput.value;
+  var edad = edadInput.value;
+  var indexNacionalidad = nacionalidadSelect.selectedIndex;
+  var nacionalidad = nacionalidadSelect.options[indexNacionalidad].value;
 
-  var i = na.selectedIndex
-  var nacionalidad = na.options[i].value
-  console.log(nombre, edad)
-  console.log(nacionalidad)
+  // Muestra en consola el nombre, edad y nacionalidad para depuracion
+
+  console.log(nombre, edad, nacionalidad);
+
+  // Validacion del formulario
 
   if (nombre.length === 0) {
-    n.classList.add("error")
+    // Agrega clase de error si el nombre esta vacio
+    nombreInput.classList.add("error");
   }
-  if (edad < 18 || edad > 120) {
-    e.classList.add("error")
+  if (edad.length === 0 || isValidNumber(edad) || < 18 || edad > 120) {
+
+   // Agrega clase de error si la edad no esta en el formato o rango valido
+   edadInput.classList.add("error");
   }
 
-if (nombre.length > 0 
-  && (edad > 18 
-    && edad < 120) ) {
-  agregarInvitado(nombre, edad, nacionalidad)
+  // Si el nombre no esta vacio y la edad esta dentro del rango, agregar invitado
+  if (nombre.length > 0 && isValidNumber(edad) && edad >= 18 && edad <= 120) {
+    agregarInvitado(nombre, edad, nacionalidad);
   }
 }
+
+// Funcion para verificar si un valor es un numero valido
 
 var botonBorrar = document.createElement("button")
 botonBorrar.textContent = "Eliminar invitado"
@@ -67,31 +77,38 @@ elementoLista.appendChild(spanNombre)
 elementoLista.appendChild(inputNombre)
 elementoLista.appendChild(espacio)
 
+// Funcion para crear elementos span e input para mostrar detalles del invitado
+
 function crearElemento(descripcion, valor) {
-var spanNombre = document.createElement("span")
-var inputNombre = document.createElement("input")
-var espacio = document.createElement("br")
-spanNombre.textContent = descripcion + ": "
-inputNombre.value = valor 
-elementoLista.appendChild(spanNombre)
-elementoLista.appendChild(inputNombre)
-elementoLista.appendChild(espacio)
+var span = document.createElement("span")
+var input = document.createElement("input")
+var br = document.createElement("br");
+span.textContent = descripcion + ": ";
+input.value = valor 
+elementoLista.appendChild(span);
+elementoLista.appendChild(input);
+elementoLista.appendChild(br);
 }
 
-crearElemento("Nombre", nombre)
-crearElemento("Edad", edad)
-crearElemento("Nacionalidad", nacionalidad)
+// Crea elementos para mostrar nombre, edad y nacionalidad del invitado
 
+crearElemento("Nombre", nombre);
+crearElemento("Edad", edad);
+crearElemento("Nacionalidad", nacionalidad);
 
-var botonBorrar = document.createElement("button")
-botonBorrar.textContent = "Eliminar invitado"
-botonBorrar.id = "boton-borrar"
-var corteLinea = document.createElement("br")
-elementoLista.appendChild(corteLinea)
+// Crea un botón para eliminar invitado
+
+var botonBorrar = document.createElement("button");
+botonBorrar.textContent = "Eliminar invitado";
+botonBorrar.id = "boton-borrar";
+var br = document.createElement("br");
+elementoLista.appendChild(br);
 elementoLista.appendChild(botonBorrar);
+
+// Evento al hacer clic en el botón de eliminar invitado
 
  botonBorrar.onclick = function() {
 // this.parentNode.style.display = 'none';
-botonBorrar.parentNode.remove()
+botonBorrar.parentNode.removeChild()
   }
 }
